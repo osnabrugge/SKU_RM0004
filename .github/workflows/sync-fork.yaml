@@ -18,7 +18,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      
+
       - name: Set up GitHub CLI
         run: |
           sudo apt update
@@ -28,7 +28,7 @@ jobs:
           sudo apt update
           sudo apt install gh -y
           gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
-      
+
       - name: Generate Token
         uses: actions/create-github-app-token@v1
         id: app-token
@@ -46,17 +46,17 @@ jobs:
       - name: List contents of workflows directory
         run: |
           ls -la fork/.github/workflows
-      
+
       - name: Save Sync Fork Workflow
         run: |
           mkdir -p /tmp
           cp fork/.github/workflows/sync-fork.yaml /tmp/sync-fork.yaml
-      
+
       - name: Add source remote
         run: |
           cd fork
           git remote add source ${{ env.SOURCE_REMOTE_URL }}
-   
+
       - name: Set Git Config
         run: |
           git config --global user.name "github-actions"
@@ -68,14 +68,14 @@ jobs:
           if [ "${{ env.MERGE_TYPE }}" == "hardreset" ]; then
             git reset --hard source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "merge" ]; then
-            git merge source/${{ env.SOURCE_MAIN_BRANCH }}
+            git merge -X ours source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "squash" ]; then
             git merge --squash source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "rebase" ]; then
             git rebase source/${{ env.SOURCE_MAIN_BRANCH }}
           fi
           git push origin ${{ env.SOURCE_MAIN_BRANCH }} --force
-      
+
       - name: Sync source to fork (additional branch)
         if: ${{ env.ADDITIONAL_BRANCH == 'yes' }}
         run: |
@@ -84,14 +84,14 @@ jobs:
           if [ "${{ env.MERGE_TYPE }}" == "hardreset" ]; then
             git reset --hard source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "merge" ]; then
-            git merge source/${{ env.SOURCE_ADD_BRANCH }}
+            git merge -X ours source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "squash" ]; then
             git merge --squash source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "rebase" ]; then
             git rebase source/${{ env.SOURCE_ADD_BRANCH }}
           fi
           git push origin ${{ env.TARGET_ADD_BRANCH }} --force
-      
+
       - name: Restore Sync Fork Workflow
         run: |
           mkdir -p fork/.github/workflows
@@ -107,7 +107,7 @@ jobs:
           for run_id in $FAILED_RUNS; do
             gh api -X DELETE /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/actions/runs/$run_id/logs
           done
-      
+
       - name: Disable all workflows except sync-fork.yaml
         if: ${{ env.DISABLE_NEW_WORKFLOWS == 'yes' }}
         run: |
