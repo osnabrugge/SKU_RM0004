@@ -53,10 +53,10 @@ char* get_ip_address(void)
         /* I want IP address attached to "wlan0" */
         strncpy(ifr.ifr_name, "wlan0", IFNAMSIZ-1);
         symbol=ioctl(fd, SIOCGIFADDR, &ifr);
-        close(fd);    
+        close(fd);
         if(symbol==0)
         {
-          return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);   
+          return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
         }
         else
         {
@@ -96,10 +96,10 @@ char* get_ip_address_new(void)
       /* I want IP address attached to "wlan0" */
       strncpy(ifr.ifr_name, "wlan0", IFNAMSIZ-1);
       symbol=ioctl(fd, SIOCGIFADDR, &ifr);
-      close(fd);    
+      close(fd);
       if(symbol==0)
       {
-        return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);   
+        return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
       }
       else
       {
@@ -138,13 +138,13 @@ void get_cpu_memory(float *Totalram,float *freeram)
             {
              *Totalram=value/1000.0/1000.0;
             }
-            else if(strcmp(famer,"MemFree:")==0)
+            else if(strcmp(famer,"MemAvailable:")==0)
             {
               *freeram=value/1000.0/1000.0;
             }
         }
-        fclose(fp);    
-    }   
+        fclose(fp);
+    }
 }
 
 /*
@@ -155,7 +155,7 @@ void get_sd_memory(uint32_t *MemSize, uint32_t *freesize)
     struct statfs diskInfo;
     statfs("/",&diskInfo);
     unsigned long long blocksize = diskInfo.f_bsize;// The number of bytes per block
-    unsigned long long totalsize = blocksize*diskInfo.f_blocks;//Total number of bytes	
+    unsigned long long totalsize = blocksize*diskInfo.f_blocks;//Total number of bytes
     *MemSize=(unsigned int)(totalsize>>30);
 
 
@@ -175,11 +175,11 @@ uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize)
   uint8_t diskMembuff[10] = {0};
   uint8_t useMembuff[10] = {0};
   FILE *fd = NULL;
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(2)}'","r"); 
+  fd=popen("df -l / | grep /dev/sda | awk '{printf \"%s\", $(2)}'","r");
   fgets(diskMembuff,sizeof(diskMembuff),fd);
   fclose(fd);
 
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(3)}'","r"); 
+  fd=popen("df -l / | grep /dev/sda | awk '{printf \"%s\", $(3)}'","r");
   fgets(useMembuff,sizeof(useMembuff),fd);
   fclose(fd);
 
@@ -200,7 +200,7 @@ uint8_t get_temperature(void)
     fgets(buff,sizeof(buff),fd);
     sscanf(buff, "%d", &temp);
     fclose(fd);
-    return TEMPERATURE_TYPE == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;    
+    return TEMPERATURE_TYPE == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;
 }
 
 /*
@@ -216,13 +216,13 @@ uint8_t get_cpu_message(void)
 
     fp=popen("top -bn1 | grep %Cpu | awk '{printf \"%.2f\", $(2)}'","r");    //Gets the load on the CPU
     fgets(usCpuBuff, sizeof(usCpuBuff),fp);                                    //Read the user CPU load
-    pclose(fp);    
+    pclose(fp);
 
     fp=popen("top -bn1 | grep %Cpu | awk '{printf \"%.2f\", $(4)}'","r");    //Gets the load on the CPU
     fgets(syCpubuff, sizeof(syCpubuff),fp);                                    //Read the system CPU load
-    pclose(fp);   
+    pclose(fp);
     usCpu = atoi(usCpuBuff);
     syCpu = atoi(syCpubuff);
     return usCpu+syCpu;
-  
+
 }
