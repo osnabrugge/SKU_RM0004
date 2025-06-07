@@ -98,7 +98,7 @@ jobs:
           cp /tmp/sync-fork.yaml fork/.github/workflows/sync-fork.yaml
           cd fork
           git add .github/workflows/sync-fork.yaml
-          git commit -m "Restore sync-fork.yaml"
+          git commit -m "Restore sync-fork.yaml" || true
           git push origin ${{ env.SOURCE_MAIN_BRANCH }}
       - name: Delete logs of failed workflows
         if: ${{ env.DISABLE_NEW_WORKFLOWS == 'yes' }}
