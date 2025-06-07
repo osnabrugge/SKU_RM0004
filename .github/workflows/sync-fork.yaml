@@ -11,7 +11,7 @@ env:
   ADDITIONAL_BRANCH: no # Options: no, yes
   SOURCE_ADD_BRANCH: docs # only used when ADDITIONAL_BRANCH is set to yes
   TARGET_ADD_BRANCH: docs # only used when ADDITIONAL_BRANCH is set to yes
-  MERGE_TYPE: rebase # Options: hardreset, merge, squash, rebase
+  MERGE_TYPE: merge # Options: hardreset, merge, squash, rebase
   DISABLE_NEW_WORKFLOWS: yes # Options: yes, no
 
 jobs:
