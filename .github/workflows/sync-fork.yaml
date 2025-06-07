@@ -68,7 +68,7 @@ jobs:
           if [ "${{ env.MERGE_TYPE }}" == "hardreset" ]; then
             git reset --hard source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "merge" ]; then
-            git merge -X ours source/${{ env.SOURCE_MAIN_BRANCH }}
+            git merge -X ours --allow-unrelated-histories source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "squash" ]; then
             git merge --squash source/${{ env.SOURCE_MAIN_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "rebase" ]; then
@@ -84,7 +84,7 @@ jobs:
           if [ "${{ env.MERGE_TYPE }}" == "hardreset" ]; then
             git reset --hard source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "merge" ]; then
-            git merge -X ours source/${{ env.SOURCE_ADD_BRANCH }}
+            git merge -X ours --allow-unrelated-histories source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "squash" ]; then
             git merge --squash source/${{ env.SOURCE_ADD_BRANCH }}
           elif [ "${{ env.MERGE_TYPE }}" == "rebase" ]; then
