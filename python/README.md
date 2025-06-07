@@ -1,5 +1,7 @@
 # SKU_RM0004 python wrapper
+
 You can import the dynamic link library through **ctypes**  , and then call the function
+
 ```c
 extern void lcd_write_string(uint16_t x, uint16_t y,  char *str, FontDef font,uint16_t color, uint16_t bgcolor);
 extern void lcd_write_str(uint16_t x, uint16_t y,  char *str, FontType font,uint16_t color, uint16_t bgcolor);
@@ -19,4 +21,4 @@ extern void lcd_display_ram(void);
 extern void lcd_display_temp(void);
 extern void lcd_display_disk(void);
 extern void lcd_display_percentage(uint8_t val, uint16_t color);
-``` 
+```

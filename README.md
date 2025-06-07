@@ -37,7 +37,6 @@ sudo reboot
 
 ## How to uninstall the uctronics-display.service
 
-
 ```bash
 sudo systemctl disable uctronics-display.service
 sudo rm /etc/systemd/system/uctronics-display.service
@@ -48,4 +47,4 @@ sudo systemctl daemon-reload
 
 ***Note: only for Raspberry Pi 5 and UC-B86 NVMe hat***
 
-https://github.com/UCTRONICS/SKU_RM0004/blob/main/data/NVMe_User_Guide.md
+<https://github.com/UCTRONICS/SKU_RM0004/blob/main/data/NVMe_User_Guide.md>
